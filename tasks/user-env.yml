@@ -24,14 +24,16 @@
     creates: "{{ ansible_env.HOME }}/src/xinput_calibrator/src/xinput_calibrator"
 
 - name: "Install XInput calibrator"
-  sudo: yes
+  become: yes
+  become_user: root
   shell: make install
   args:
     chdir: "{{ ansible_env.HOME }}/src/xinput_calibrator/"
     creates: "/usr/local/bin/xinput_calibrator"
 
 - name: "Configure LightDM"
-  sudo: yes
+  become: yes
+  become_user: root
   template:
     src: etc/lightdm/lightdm.conf.j2
     dest: /etc/lightdm/lightdm.conf

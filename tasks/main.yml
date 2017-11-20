@@ -1,17 +1,23 @@
 ---
 
 - include: "hardware.yml"
-  sudo: yes
+  become: yes
+  become_user: root
 - include: "development.yml"
-  sudo: yes
+  become: yes
+  become_user: root
 - include: "gui.yml"
-  sudo: yes
+  become: yes
+  become_user: root
 - include: "opencv.yml"
-  sudo: yes
+  become: yes
+  become_user: root
 - include: "miscellaneous.yml"
-  sudo: yes
+  become: yes
+  become_user: root
 - include: "network.yml"
-  sudo: yes
+  become: yes
+  become_user: root
 
 - include: "user-env.yml"
   sudo: no
