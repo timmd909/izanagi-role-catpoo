@@ -3,18 +3,19 @@
 - include: "hardware.yml"
   become: yes
   become_user: root
+
 - include: "development.yml"
   become: yes
   become_user: root
+
 - include: "gui.yml"
   become: yes
   become_user: root
-- include: "opencv.yml"
-  become: yes
-  become_user: root
+
 - include: "miscellaneous.yml"
   become: yes
   become_user: root
+
 - include: "network.yml"
   become: yes
   become_user: root
