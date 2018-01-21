@@ -6,8 +6,9 @@
   with_items:
     - autoconf
     - automake
-    - byacc
     - build-essential
+    - byacc
+    - cmake
     - flex
     - libtool
     - m4
@@ -34,3 +35,16 @@
 
 - name: Install Grunt CLI
   shell: npm install -g grunt-cli
+
+- name: "Install miscellaneous libraries"
+  apt: name="{{ item }}"
+  with_items:
+    - libboost-all-dev
+    - libcgicc-dev
+    - libcgicc3
+    - libsdl2-ttf-dev
+    - libsdl2-dev
+    - libx11-dev
+    - libxext-dev
+    - libxi-dev
+    - x11proto-input-dev

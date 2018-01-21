@@ -1,8 +1,8 @@
 ---
 
-- include: "hardware.yml"
-  become: yes
-  become_user: root
+# - include: "hardware.yml"
+#   become: yes
+#   become_user: root
 
 - include: "development.yml"
   become: yes
@@ -12,15 +12,12 @@
   become: yes
   become_user: root
 
-- include: "miscellaneous.yml"
-  become: yes
-  become_user: root
-
-- include: "network.yml"
-  become: yes
-  become_user: root
-
 - include: "user-env.yml"
+  sudo: no
+- include: "catpoo.yml"
+  sudo: no
+
+- include: "webcam.yml"
   sudo: no
 - include: "catpoo.yml"
   sudo: no

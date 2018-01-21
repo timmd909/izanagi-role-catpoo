@@ -1,27 +1,5 @@
 ---
 
-#
-# Install Composer
-#
-# - name: Download Composer
-#   shell: "{{ item }}"
-#   with_items:
-#     - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-#     - php composer-setup.php
-#
-# - name: Install Composer
-#   shell: "cp composer.phar /usr/local/bin/composer"
-#   become: yes
-#   become_user: root
-#
-# - name: Cleanup Composer
-#   file:
-#     path: "{{ item }}"
-#     state: absent
-#   with_items:
-#     - "{{ ansible_env.HOME }}/composer-setup.php"
-#     - "{{ ansible_env.HOME }}composer.phar"
-
 # #
 # # Clean out and clone repo
 # #
@@ -107,25 +85,3 @@
 #   become_user: root
 #   shell: service apache2 restart
 #
-# #
-# # Build any 3rd party libraries necessary
-# #
-# - name: Prepare Thrift for compilation
-#   shell: "{{ item }}"
-#   args:
-#     chdir: "{{ ansible_env.HOME }}/src/catpoo/3rdparty/thrift"
-#     creates: "{{ ansible_env.HOME }}/src/catpoo/3rdparty/thrift/Makefile"
-#   with_items:
-#     - ./bootstrap.sh
-#     - ./configure --without-qt4 --without-csharp --without-java --without-erlang --without-perl --without-haskell --without-go --without-d --with-cpp
-#
-# - name: Compile Thrift
-#   shell: make
-#   args:
-#     chdir: "{{ ansible_env.HOME }}/src/catpoo/3rdparty/thrift"
-#
-# - name: Install Thrift
-#   shell: make install
-#   become: yes
-#   become_user: root
-#   args: chdir="{{ ansible_env.HOME }}/src/catpoo/3rdparty/thrift"
