@@ -18,6 +18,12 @@
   sudo: no
 
 - include: "webcam.yml"
-  sudo: no
+  become: yes
+  become_user: root
+
 - include: "catpoo.yml"
   sudo: no
+
+- include: "miscellaneous.yml"
+  become: yes
+  become_user: root

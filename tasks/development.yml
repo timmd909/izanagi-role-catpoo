@@ -26,6 +26,7 @@
   with_items:
     - python
     - python-pysqlite2
+    - python-smbus
 
 - name: Install Node and NPM
   apt: name="{{ item }}"

@@ -33,3 +33,23 @@
 
 - name: Install i2c-tools
   apt: name=i2c-tools state=present
+
+# Cuz no robot is complete if it can't speak up
+- name: Install Festival
+  apt: name=festival state=present
+  with_items:
+    - festival
+    - festlex-cmu
+    - festlex-oald
+    - festlex-poslex
+    - festvox-don
+    - festvox-kallpc16k
+    - festvox-kdlpc16k
+    - festvox-rablpc16k
+
+- name: Set default Festival voice
+  lineinfile:
+    line: '(set! voice_default voice_rab_diphone)'
+    path: /etc/festival.scm
+    regexp: '^\(set\! voice_default.*'
+    state: present
