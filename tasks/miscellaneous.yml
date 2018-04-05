@@ -2,3 +2,6 @@
 
 - name: Install nmap
   apt: name=nmap state=present
+
+- name: "Install VLC"
+  apt: name=vlc state=present

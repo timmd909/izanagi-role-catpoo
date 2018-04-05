@@ -1,28 +1,5 @@
 ---
 
-- name: "Install VLC"
-  apt: name=vlc state=present
-
-- name: 'Install ffmpeg'
-  apt: name=ffmpeg state=present
-
-- name: 'Install Motion'
-  apt: name=motion state=present
-
-- name: 'Auto start Motion daemon'
-  lineinfile:
-    line: 'start_motion_daemon=yes'
-    path: /etc/default/motion
-    regexp: '^start_motion_daemon'
-    state: present
-
-- name: 'Allow Motion connections from anywhere'
-  lineinfile:
-    line: 'stream_localhost off'
-    path: /etc/motion/motion.conf
-    regexp: '^stream_localhost'
-    state: present
-
 - name: 'Disable saving pictures'
   lineinfile:
     line: 'output_pictures off'
@@ -35,10 +12,4 @@
     line: 'ffmpeg_output_movies off'
     path: /etc/motion/motion.conf
     regexp: '^ffmpeg_output_movies'
-    state: present
-
-- name: 'Enable V4L Support for Raspberry Pi camera'
-  lineinfile:
-    line: bcm2835-v4l2
-    path: /etc/modules
     state: present

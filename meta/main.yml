@@ -6,3 +6,4 @@ dependencies:
   - role: "router"
     use_adafruit_hostapd: true
     wireless_hostapd_driver: rtl871xdrv
+  - role: "motion-server"
