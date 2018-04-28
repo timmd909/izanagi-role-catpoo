@@ -36,40 +36,6 @@
     state: link
     src: /usr/share/X11/xorg.conf.d
 
-- name: "Update touchscreen calibration"
-  template:
-    dest: /etc/X11/xorg.conf.d/99-calibration.conf
-    src: etc/X11/xorg.conf.d/99-calibration.conf.j2
-
-- name: "Install XInput calibration software"
-  git:
-    accept_hostkey: yes
-    clone: yes
-    dest: "/usr/local/src/xinput_calibrator/"
-    recursive: yes
-    repo: "https://github.com/tias/xinput_calibrator.git"
-    version: v0.7.5
-
-- name: "Autogen XInput calibrator"
-  shell: "./autogen.sh"
-  args:
-    chdir: "/usr/local/src/xinput_calibrator/"
-    creates: "/usr/local/src/xinput_calibrator/Makefile"
-
-- name: "Compile XInput calibrator"
-  shell: "make"
-  args:
-    chdir: "/usr/local/src/xinput_calibrator/"
-    creates: "/usr/local/src/xinput_calibrator/src/xinput_calibrator"
-
-- name: "Install XInput calibrator"
-  become: yes
-  become_user: root
-  shell: make install
-  args:
-    chdir: "/usr/local/src/xinput_calibrator/"
-    creates: "/usr/local/bin/xinput_calibrator"
-
 #
 # Kiosk mode
 #
