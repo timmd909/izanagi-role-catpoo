@@ -69,3 +69,22 @@
   args:
     chdir: "/usr/local/src/xinput_calibrator/"
     creates: "/usr/local/bin/xinput_calibrator"
+
+#
+# Kiosk mode
+#
+- name: "Install x11-xserver-utils"
+  apt: name=x11-xserver-utils state=present
+
+- name: "Install Chromium"
+  apt: name=chromium-browser state=present
+
+- name: Configure LXDE global defaults
+  template:
+    src: etc/xdg/lxsession/LXDE/autostart.j2
+    dest: /etc/xdg/lxsession/LXDE/autostart
+
+- name: Configure LXDE user defaults
+  template:
+    src: etc/xdg/lxsession/LXDE/autostart.j2
+    dest: "{{ ansible_env.HOME }}/.config/lxsession/LXDE/autostart"
