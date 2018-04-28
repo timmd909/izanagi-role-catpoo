@@ -10,8 +10,10 @@ wap_ip_octet_2: 13
 wap_ip_octet_3: 37
 wap_ip_octet_4: 1
 wap_device: wlan0
-router_external_nic: eth0
+external_wireless_nic: wlan1
 router_internal_nic: wlan0
+router_access_point_nic: wlan0
+router_external_nic: eth0
 
 #
 # Force HDMI
