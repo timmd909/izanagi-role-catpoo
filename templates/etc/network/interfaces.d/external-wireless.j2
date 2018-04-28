@@ -1,0 +1,7 @@
+# If a USB wireless NIC is plugged in, it will default to being
+# on the same network as the default external device
+
+auto {{ external_wireless_nic }}
+allow-hotplug {{ external_wireless_nic }}
+iface {{ external_wireless_nic }} inet dhcp
+wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf

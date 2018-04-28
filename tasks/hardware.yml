@@ -1,5 +1,10 @@
 ---
 
+- name: "Install debugging USB wireless NIC support"
+  template:
+    src: etc/network/interfaces.d/external-wireless.j2
+    dest: /etc/network/interfaces.d/external-wireless
+
 - name: "Set HDMI Group"
   lineinfile:
     regexp: '^hdmi_group'
