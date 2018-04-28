@@ -13,16 +13,13 @@
   become_user: root
 
 - include: "user-env.yml"
-  sudo: no
 - include: "catpoo.yml"
-  sudo: no
 
 - include: "webcam.yml"
   become: yes
   become_user: root
 
 - include: "catpoo.yml"
-  sudo: no
 
 - include: "miscellaneous.yml"
   become: yes
