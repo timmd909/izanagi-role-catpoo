@@ -3,25 +3,25 @@
 # Tasks meant to be run as a regular user
 #
 
-#
-# - name: "Configure GNU Krellm GUI (Step 1 of 3)"
-#   file:
-#     state: directory
-#     path: "{{ item }}"
-#   with_items:
-#     - "{{ ansible_env.HOME }}/.gkrellm2/"
-#     - "{{ ansible_env.HOME }}/.config/"
-#     - "{{ ansible_env.HOME }}/.config/autostart/"
-#
-# - name: "Configure GNU Krellm GUI (Step 2 of 3)"
-#   template:
-#     src: "home/user/.gkrellm2/{{ item }}.j2"
-#     dest: "{{ ansible_env.HOME }}/.gkrellm2/{{ item }}"
-#   with_items:
-#     - "sensor-config"
-#     - "user-config"
-#
-# - name: "Configure GNU Krellm GUI (Step 3 of 3)"
-#   template:
-#     src: "home/user/.config/autostart/gkrellm.desktop.j2"
-#     dest: "{{ ansible_env.HOME }}/.config/autostart/gkrellm.desktop"
+
+- name: "Configure GNU Krellm GUI (Step 1 of 3)"
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "{{ ansible_env.HOME }}/.gkrellm2/"
+    - "{{ ansible_env.HOME }}/.config/"
+    - "{{ ansible_env.HOME }}/.config/autostart/"
+
+- name: "Configure GNU Krellm GUI (Step 2 of 3)"
+  template:
+    src: "home/user/.gkrellm2/{{ item }}.j2"
+    dest: "{{ ansible_env.HOME }}/.gkrellm2/{{ item }}"
+  with_items:
+    - "sensor-config"
+    - "user-config"
+
+- name: "Configure GNU Krellm GUI (Step 3 of 3)"
+  template:
+    src: "home/user/.config/autostart/gkrellm.desktop.j2"
+    dest: "{{ ansible_env.HOME }}/.config/autostart/gkrellm.desktop"
