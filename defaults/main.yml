@@ -20,8 +20,9 @@ router_external_nic: eth0
 #
 
 # Possible values: https://www.raspberrypi.org/documentation/configuration/config-txt/video.md
-hdmi_group: 1
-hdmi_mode: 3
+hdmi_group: 2
+hdmi_mode: 87
+hdmi_cvt: 800 480 60 6 0 0 0
 
 #
 # Touch screen calibration (this was a nightmare to get a working setup).
