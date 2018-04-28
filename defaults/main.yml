@@ -43,3 +43,11 @@ dns_network_device: "{{ router_internal_nic }}"
 #
 router_external_nic: wlan0
 router_internal_nic: "{{ wap_device }}"
+
+internal_hosts:
+  - name: catpoo
+    mac: "66:66:66:66:66:66"
+    ip: 1
+  - name: router
+    mac: "66:66:66:66:66:66"
+    ip: 1
