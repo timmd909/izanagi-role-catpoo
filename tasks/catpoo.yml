@@ -65,12 +65,12 @@
 - name: Install Composer vendors
   shell: "composer --no-interaction install"
   args:
-    chdir: "{{ catpoo_document_root }}/web"
+    chdir: "{{ catpoo_document_root }}"
 
 - name: Install Node modules
   shell: npm install
   args:
-    chdir: "{{ catpoo_document_root }}/web"
+    chdir: "{{ catpoo_document_root }}"
 
 #
 # Update CATPOO webroot ACLs
