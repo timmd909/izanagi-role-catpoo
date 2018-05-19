@@ -1,18 +1,24 @@
 ---
 
-# #
-# # Clean out and clone repo
-# #
-# - name: Clone CATPOO repo
-#   git:
-#     accept_hostkey: yes
-#     clone: yes
-#     dest: "{{ ansible_env.HOME }}/src/catpoo"
-#     force: yes
-#     recursive: yes
-#     repo: "git@github.com:timmd909/catpoo.git"
-#     version: master
-#
+- name: Clone CATPOO controller repo
+  git:
+    accept_hostkey: yes
+    clone: yes
+    dest: /usr/local/src/catpoo-controller
+    force: yes
+    recursive: yes
+    repo: https://github.com/timmd909/catpoo-controller.git
+    version: master
+
+- name: Build CATPOO controller
+  shell: "{{ item }}"
+  args:
+    chdir: /usr/local/src/catpoo-controller
+  with_items:
+    - autoreconf --install
+    - ./configure
+    - make
+
 # #
 # # Install dependencies
 # #

@@ -20,6 +20,8 @@
   become_user: root
 
 - include: "catpoo.yml"
+  become: yes
+  become_user: root
 
 - include: "miscellaneous.yml"
   become: yes
