@@ -40,6 +40,12 @@
 #
 # Apache configuration
 #
+- name: Enable Apache modules for CATPOO
+  apache2_module: state=present name="{{ item }}"
+  with_items:
+    - proxy
+    - proxy_http
+
 - name: Configure web server
   template:
     src: etc/apache2/sites-available/catpoo.conf.j2
@@ -52,12 +58,6 @@
 - name: Disable catpoo Apache config
   shell: "a2dissite catpoo"
   when: catpoo_web_ui == false
-
-- name: Enable Apache modules for CATPOO
-  apache2_module: state=present name="{{ item }}"
-  with_items:
-    - proxy
-    - proxy_http
 
 - name: Fix ownership & permissions in CATPOO webroot
   file:

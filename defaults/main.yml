@@ -52,3 +52,5 @@ catpoo_web_ui: true
 catpoo_document_root: /var/www/catpoo
 catpoo_controller_repo: https://github.com/timmd909/catpoo-controller.git
 catpoo_web_repo: https://github.com/timmd909/catpoo-web.git
+
+apache_username: www-data
