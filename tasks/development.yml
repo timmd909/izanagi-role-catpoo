@@ -35,7 +35,8 @@
     - npm
 
 - name: Install Grunt CLI
-  shell: npm install -g grunt-cli
+  npm: name=grunt-cli state=present global=yes
+  # shell: npm install -g grunt-cli
 
 - name: "Install miscellaneous libraries"
   apt: name="{{ item }}"

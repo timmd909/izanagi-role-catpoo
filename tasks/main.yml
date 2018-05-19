@@ -1,5 +1,9 @@
 ---
 
+- include: "catpoo.yml"
+  become: yes
+  become_user: root
+
 - include: "hardware.yml"
   become: yes
   become_user: root
@@ -12,17 +16,8 @@
   become: yes
   become_user: root
 
-- include: "user-env.yml"
-- include: "catpoo.yml"
-
 - include: "webcam.yml"
   become: yes
   become_user: root
 
-- include: "catpoo.yml"
-  become: yes
-  become_user: root
-
-- include: "miscellaneous.yml"
-  become: yes
-  become_user: root
+- include: "user-env.yml"

@@ -44,3 +44,11 @@ dns_network_device: "{{ router_internal_nic }}"
 #
 router_external_nic: wlan0
 router_internal_nic: "{{ wap_device }}"
+
+#
+# Web UI
+#
+catpoo_web_ui: true
+catpoo_document_root: /var/www/catpoo
+catpoo_controller_repo: https://github.com/timmd909/catpoo-controller.git
+catpoo_web_repo: https://github.com/timmd909/catpoo-web.git

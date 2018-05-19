@@ -1,5 +1,9 @@
 ---
 
+#
+# CATPOO controller
+#
+
 - name: Clone CATPOO controller repo
   git:
     accept_hostkey: yes
@@ -7,7 +11,7 @@
     dest: /usr/local/src/catpoo-controller
     force: yes
     recursive: yes
-    repo: https://github.com/timmd909/catpoo-controller.git
+    repo: "{{ catpoo_controller_repo }}"
     version: master
 
 - name: Build CATPOO controller
@@ -18,6 +22,92 @@
     - autoreconf --install
     - ./configure
     - make
+
+#
+# CATPOO web UI
+#
+
+- name: Clone CATPOO Web UI repo
+  git:
+    accept_hostkey: yes
+    clone: yes
+    dest: "{{ catpoo_document_root }}"
+    force: yes
+    recursive: yes
+    repo: "{{ catpoo_web_repo }}"
+    version: master
+
+#
+# Apache configuration
+#
+- name: Configure web server
+  template:
+    src: etc/apache2/sites-available/catpoo.conf.j2
+    dest: /etc/apache2/sites-available/catpoo.conf
+
+- name: Enable catpoo Apache config
+  shell: "a2ensite catpoo"
+  notify: "Restart Apache"
+  when: catpoo_web_ui == true
+
+- name: Disable catpoo Apache config
+  shell: "a2dissite catpoo"
+  notify: "Restart Apache"
+  when: catpoo_web_ui == false
+
+- name: Enable Apache modules for CATPOO
+  apache2_module: state=present name="{{ item }}"
+  with_items:
+    - proxy
+    - proxy_http
+
+- name: Fix ownership & permissions in CATPOO webroot
+  file:
+    owner: www-data
+    group: www-data
+    path: "{{ catpoo_document_root }}"
+    recurse: yes
+
+#
+# Update CATPOO webroot ACLs
+#
+- name: Update www-data ACL for CATPOO defaults
+  acl:
+    default: yes
+    entity: "{{ apache_username }}"
+    etype: user
+    path: "{{ catpoo_document_root }}"
+    permissions: "rwx"
+    recursive: yes
+    state: present
+
+- name: Update www-data ACL for CATPOO
+  acl:
+    entity: "{{ apache_username }}"
+    etype: user
+    path: "{{ catpoo_document_root }}"
+    permissions: "rwx"
+    recursive: yes
+    state: present
+
+- name: Update user ACL for CATPOO defaults
+  acl:
+    default: yes
+    entity: "{{ ansible_env.USER }}"
+    etype: user
+    path: "{{ catpoo_document_root }}"
+    permissions: "rwx"
+    recursive: yes
+    state: present
+
+- name: Update user ACL for CATPOO
+  acl:
+    entity: "{{ ansible_env.USER }}"
+    etype: user
+    path: "{{ catpoo_document_root }}"
+    permissions: "rwx"
+    recursive: yes
+    state: present
 
 # #
 # # Install dependencies
@@ -34,60 +124,7 @@
 # #
 # # Configure web server
 # #
-# - name: Update www-data ACL for CATPOO
-#   acl:
-#     default: yes
-#     entity: "{{ apache_username }}"
-#     etype: user
-#     name: "{{ item }}"
-#     permissions: "rwx"
-#     recursive: yes
-#     state: present
-#   with_items:
-#     - "{{ ansible_env.HOME }}/src/catpoo/www/app/cache"
-#     - "{{ ansible_env.HOME }}/src/catpoo/www/app/logs"
-#
-# - name: Update user ACL for CATPOO
-#   acl:
-#     default: yes
-#     entity: "{{ ansible_env.USER }}"
-#     etype: user
-#     name: "{{ item }}"
-#     permissions: "rwx"
-#     recursive: yes
-#     state: present
-#   with_items:
-#     - "{{ ansible_env.HOME }}/src/catpoo/www/app/cache"
-#     - "{{ ansible_env.HOME }}/src/catpoo/www/app/logs"
-#
-# - name: Install Apache CATPOO site configuration
-#   template:
-#     dest: "{{ ansible_env.HOME }}/src/catpoo/config/catpoo-site"
-#     src: "home/user/src/catpoo/config/catpoo-site.j2"
-#
-# - name: Symlink CATPOO site configuration
-#   become: yes
-#   become_user: root
-#   file:
-#     state: link
-#     src: "{{ ansible_env.HOME }}/src/catpoo/config/catpoo-site"
-#     path: /etc/apache2/sites-available/catpoo-site.conf
-#
-# - name: Enable Apache modules for CATPOO
-#   become: yes
-#   become_user: root
-#   apache2_module: state=present name="{{ item }}"
-#   with_items:
-#     - proxy
-#     - proxy_http
-#
-# - name: Enable CATPOO site
-#   become: yes
-#   become_user: root
-#   shell: a2ensite catpoo-site
-#
 # - name: Restart Apache
 #   become: yes
 #   become_user: root
 #   shell: service apache2 restart
-#
