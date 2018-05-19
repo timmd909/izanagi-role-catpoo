@@ -59,6 +59,22 @@
   shell: "a2dissite catpoo"
   when: catpoo_web_ui == false
 
+#
+# Install dependencies
+#
+- name: Install Composer vendors
+  shell: "composer --no-interaction install"
+  args:
+    chdir: "{{ catpoo_document_root }}/web"
+
+- name: Install Node modules
+  shell: npm install
+  args:
+    chdir: "{{ catpoo_document_root }}/web"
+
+#
+# Update CATPOO webroot ACLs
+#
 - name: Fix ownership & permissions in CATPOO webroot
   file:
     owner: www-data
@@ -66,9 +82,6 @@
     path: "{{ catpoo_document_root }}"
     recurse: yes
 
-#
-# Update CATPOO webroot ACLs
-#
 - name: Update www-data ACL for CATPOO defaults
   acl:
     default: yes
@@ -106,23 +119,3 @@
     permissions: "rwx"
     recursive: yes
     state: present
-
-# #
-# # Install dependencies
-# #
-# - name: Install Composer vendors
-#   shell: "composer --no-interaction install"
-#   args:
-#     chdir: "{{ ansible_env.HOME }}/src/catpoo/www"
-# - name: Install Node modules
-#   shell: npm install
-#   args:
-#     chdir: "{{ ansible_env.HOME }}/src/catpoo"
-#
-# #
-# # Configure web server
-# #
-# - name: Restart Apache
-#   become: yes
-#   become_user: root
-#   shell: service apache2 restart
