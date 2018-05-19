@@ -47,12 +47,10 @@
 
 - name: Enable catpoo Apache config
   shell: "a2ensite catpoo"
-  notify: "Restart Apache"
   when: catpoo_web_ui == true
 
 - name: Disable catpoo Apache config
   shell: "a2dissite catpoo"
-  notify: "Restart Apache"
   when: catpoo_web_ui == false
 
 - name: Enable Apache modules for CATPOO
