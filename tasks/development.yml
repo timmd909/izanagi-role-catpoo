@@ -61,3 +61,6 @@
     - libxext-dev
     - libxi-dev
     - x11proto-input-dev
+
+- name: "Install WiringPi"
+  apt: name=wiringpi state=latest
