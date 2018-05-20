@@ -74,6 +74,15 @@
     chdir: "{{ catpoo_document_root }}"
 
 #
+# Update permissions
+#
+- name: Add www-data user to I2C group
+  user:
+    name: www-data
+    append: yes
+    groups: i2c
+
+#
 # Update CATPOO webroot ACLs
 #
 - name: Fix ownership & permissions in CATPOO webroot
