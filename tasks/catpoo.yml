@@ -73,6 +73,11 @@
   args:
     chdir: "{{ catpoo_document_root }}"
 
+- name: Build assets
+  shell: grunt
+  args:
+    chdir: "{{ catpoo_document_root }}"
+
 #
 # Update permissions
 #
