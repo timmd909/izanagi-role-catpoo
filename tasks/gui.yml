@@ -43,7 +43,7 @@
   apt: name=x11-xserver-utils state=present
 
 - name: "Install Chromium"
-  apt: name=chromium-browser state=present
+  apt: name=chromium-browser state=latest
 
 - name: Configure LXDE global defaults
   template:
