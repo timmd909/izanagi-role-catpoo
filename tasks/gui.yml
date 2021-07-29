@@ -19,8 +19,8 @@
     runlevel: 3
     name: lightdm
 
-- name: "Install GNU Krell monitors"
-  apt: name=gkrellm state=present
+# - name: "Install GNU Krell monitors"
+#   apt: name=gkrellm state=present
 
 #
 # XInput

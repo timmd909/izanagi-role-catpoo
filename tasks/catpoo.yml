@@ -1,136 +1,136 @@
 ---
 
+# #
+# # CATPOO controller
+# #
 #
-# CATPOO controller
+# - name: Clone CATPOO controller repo
+#   git:
+#     accept_hostkey: yes
+#     clone: yes
+#     dest: /usr/local/src/catpoo-controller
+#     force: yes
+#     recursive: yes
+#     repo: "{{ catpoo_controller_repo }}"
+#     version: master
 #
-
-- name: Clone CATPOO controller repo
-  git:
-    accept_hostkey: yes
-    clone: yes
-    dest: /usr/local/src/catpoo-controller
-    force: yes
-    recursive: yes
-    repo: "{{ catpoo_controller_repo }}"
-    version: master
-
-- name: Build CATPOO controller
-  shell: "{{ item }}"
-  args:
-    chdir: /usr/local/src/catpoo-controller
-  with_items:
-    - autoreconf --install
-    - ./configure
-    - make
-    - make install
-
+# - name: Build CATPOO controller
+#   shell: "{{ item }}"
+#   args:
+#     chdir: /usr/local/src/catpoo-controller
+#   with_items:
+#     - autoreconf --install
+#     - ./configure
+#     - make
+#     - make install
 #
-# CATPOO web UI
+# #
+# # CATPOO web UI
+# #
 #
-
-- name: Clone CATPOO Web UI repo
-  git:
-    accept_hostkey: yes
-    clone: yes
-    dest: "{{ catpoo_document_root }}"
-    force: yes
-    recursive: yes
-    repo: "{{ catpoo_web_repo }}"
-    version: master
-
+# - name: Clone CATPOO Web UI repo
+#   git:
+#     accept_hostkey: yes
+#     clone: yes
+#     dest: "{{ catpoo_document_root }}"
+#     force: yes
+#     recursive: yes
+#     repo: "{{ catpoo_web_repo }}"
+#     version: master
 #
-# Apache configuration
+# #
+# # Apache configuration
+# #
+# - name: Enable Apache modules for CATPOO
+#   apache2_module: state=present name="{{ item }}"
+#   with_items:
+#     - proxy
+#     - proxy_http
 #
-- name: Enable Apache modules for CATPOO
-  apache2_module: state=present name="{{ item }}"
-  with_items:
-    - proxy
-    - proxy_http
-
-- name: Configure web server
-  template:
-    src: etc/apache2/sites-available/catpoo.conf.j2
-    dest: /etc/apache2/sites-available/catpoo.conf
-
-- name: Enable catpoo Apache config
-  shell: "a2ensite catpoo"
-  when: catpoo_web_ui == true
-
-- name: Disable catpoo Apache config
-  shell: "a2dissite catpoo"
-  when: catpoo_web_ui == false
-
+# - name: Configure web server
+#   template:
+#     src: etc/apache2/sites-available/catpoo.conf.j2
+#     dest: /etc/apache2/sites-available/catpoo.conf
 #
-# Install dependencies
+# - name: Enable catpoo Apache config
+#   shell: "a2ensite catpoo"
+#   when: catpoo_web_ui == true
 #
-- name: Install Composer vendors
-  shell: "composer --no-interaction install"
-  args:
-    chdir: "{{ catpoo_document_root }}"
-
-- name: Install Node modules
-  shell: npm install
-  args:
-    chdir: "{{ catpoo_document_root }}"
-
-- name: Build assets
-  shell: grunt
-  args:
-    chdir: "{{ catpoo_document_root }}"
-
+# - name: Disable catpoo Apache config
+#   shell: "a2dissite catpoo"
+#   when: catpoo_web_ui == false
 #
-# Update permissions
+# #
+# # Install dependencies
+# #
+# - name: Install Composer vendors
+#   shell: "composer --no-interaction install"
+#   args:
+#     chdir: "{{ catpoo_document_root }}"
 #
-- name: Add www-data user to I2C group
-  user:
-    name: www-data
-    append: yes
-    groups: i2c
-
+# - name: Install Node modules
+#   shell: npm install
+#   args:
+#     chdir: "{{ catpoo_document_root }}"
 #
-# Update CATPOO webroot ACLs
+# - name: Build assets
+#   shell: grunt
+#   args:
+#     chdir: "{{ catpoo_document_root }}"
 #
-- name: Fix ownership & permissions in CATPOO webroot
-  file:
-    owner: www-data
-    group: www-data
-    path: "{{ catpoo_document_root }}"
-    recurse: yes
-
-- name: Update www-data ACL for CATPOO defaults
-  acl:
-    default: yes
-    entity: "{{ apache_username }}"
-    etype: user
-    path: "{{ catpoo_document_root }}"
-    permissions: "rwx"
-    recursive: yes
-    state: present
-
-- name: Update www-data ACL for CATPOO
-  acl:
-    entity: "{{ apache_username }}"
-    etype: user
-    path: "{{ catpoo_document_root }}"
-    permissions: "rwx"
-    recursive: yes
-    state: present
-
-- name: Update user ACL for CATPOO defaults
-  acl:
-    default: yes
-    entity: "{{ ansible_env.USER }}"
-    etype: user
-    path: "{{ catpoo_document_root }}"
-    permissions: "rwx"
-    recursive: yes
-    state: present
-
-- name: Update user ACL for CATPOO
-  acl:
-    entity: "{{ ansible_env.USER }}"
-    etype: user
-    path: "{{ catpoo_document_root }}"
-    permissions: "rwx"
-    recursive: yes
-    state: present
+# #
+# # Update permissions
+# #
+# - name: Add www-data user to I2C group
+#   user:
+#     name: www-data
+#     append: yes
+#     groups: i2c
+#
+# #
+# # Update CATPOO webroot ACLs
+# #
+# - name: Fix ownership & permissions in CATPOO webroot
+#   file:
+#     owner: www-data
+#     group: www-data
+#     path: "{{ catpoo_document_root }}"
+#     recurse: yes
+#
+# - name: Update www-data ACL for CATPOO defaults
+#   acl:
+#     default: yes
+#     entity: "{{ apache_username }}"
+#     etype: user
+#     path: "{{ catpoo_document_root }}"
+#     permissions: "rwx"
+#     recursive: yes
+#     state: present
+#
+# - name: Update www-data ACL for CATPOO
+#   acl:
+#     entity: "{{ apache_username }}"
+#     etype: user
+#     path: "{{ catpoo_document_root }}"
+#     permissions: "rwx"
+#     recursive: yes
+#     state: present
+#
+# - name: Update user ACL for CATPOO defaults
+#   acl:
+#     default: yes
+#     entity: "{{ ansible_env.USER }}"
+#     etype: user
+#     path: "{{ catpoo_document_root }}"
+#     permissions: "rwx"
+#     recursive: yes
+#     state: present
+#
+# - name: Update user ACL for CATPOO
+#   acl:
+#     entity: "{{ ansible_env.USER }}"
+#     etype: user
+#     path: "{{ catpoo_document_root }}"
+#     permissions: "rwx"
+#     recursive: yes
+#     state: present

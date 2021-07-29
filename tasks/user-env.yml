@@ -4,19 +4,19 @@
 #
 
 
-- name: "Configure GNU Krellm GUI (Step 1 of 2)"
-  file:
-    state: directory
-    path: "{{ item }}"
-  with_items:
-    - "{{ ansible_env.HOME }}/.gkrellm2/"
-    - "{{ ansible_env.HOME }}/.config/"
-    - "{{ ansible_env.HOME }}/.config/autostart/"
-
-- name: "Configure GNU Krellm GUI (Step 2 of 2)"
-  template:
-    src: "home/user/.gkrellm2/{{ item }}.j2"
-    dest: "{{ ansible_env.HOME }}/.gkrellm2/{{ item }}"
-  with_items:
-    - "sensor-config"
-    - "user-config"
+# - name: "Configure GNU Krellm GUI (Step 1 of 2)"
+#   file:
+#     state: directory
+#     path: "{{ item }}"
+#   with_items:
+#     - "{{ ansible_env.HOME }}/.gkrellm2/"
+#     - "{{ ansible_env.HOME }}/.config/"
+#     - "{{ ansible_env.HOME }}/.config/autostart/"
+#
+# - name: "Configure GNU Krellm GUI (Step 2 of 2)"
+#   template:
+#     src: "home/user/.gkrellm2/{{ item }}.j2"
+#     dest: "{{ ansible_env.HOME }}/.gkrellm2/{{ item }}"
+#   with_items:
+#     - "sensor-config"
+#     - "user-config"

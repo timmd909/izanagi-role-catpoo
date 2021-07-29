@@ -1,23 +1,23 @@
 ---
 
-- include: "hardware.yml"
-  become: yes
-  become_user: root
-
-- include: "development.yml"
-  become: yes
-  become_user: root
-
-- include: "gui.yml"
-  become: yes
-  become_user: root
-
+# - include: "hardware.yml"
+#   become: yes
+#   become_user: root
+#
+# - include: "development.yml"
+#   become: yes
+#   become_user: root
+#
+# - include: "gui.yml"
+#   become: yes
+#   become_user: root
+#
 - include: "webcam.yml"
   become: yes
   become_user: root
-
-- include: "catpoo.yml"
-  become: yes
-  become_user: root
+#
+# - include: "catpoo.yml"
+#   become: yes
+#   become_user: root
 
 - include: "user-env.yml"

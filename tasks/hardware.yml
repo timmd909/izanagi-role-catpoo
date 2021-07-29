@@ -1,9 +1,9 @@
 ---
 
-- name: "Install debugging USB wireless NIC support"
-  template:
-    src: etc/network/interfaces.d/external-wireless.j2
-    dest: /etc/network/interfaces.d/external-wireless
+# - name: "Install debugging USB wireless NIC support"
+#   template:
+#     src: etc/network/interfaces.d/external-wireless.j2
+#     dest: /etc/network/interfaces.d/external-wireless
 
 - name: "Set HDMI Group"
   lineinfile:
@@ -26,12 +26,12 @@
     line: 'hdmi_cvt {{ hdmi_cvt }}'
     path: /boot/config.txt
 
-- name: "Disable undervoltage warning"
-  lineinfile:
-    regexp: '^avoid_warnings'
-    state: present
-    line: 'avoid_warnings=1'
-    path: /boot/config.txt
+# - name: "Disable undervoltage warning"
+#   lineinfile:
+#     regexp: '^avoid_warnings'
+#     state: present
+#     line: 'avoid_warnings=1'
+#     path: /boot/config.txt
 # avoid_warnings=1 = removes the warning overlay.
 # avoid_warnings=2 = additionally allows turbo when low-voltage is present.
 
