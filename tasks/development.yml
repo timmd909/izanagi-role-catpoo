@@ -28,23 +28,6 @@
 #     - python-pysqlite2
 #     - python-smbus
 #
-# - name: Install Node and NPM
-#   apt: name="{{ item }}"
-#   with_items:
-#     - nodejs
-#     - npm
-#   when: ansible_distribution == 'Ubuntu'
-#
-# - name: Add PPA for Node 6.x (Raspbian)
-#   shell: curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-#   args:
-#     creates: /etc/apt/sources.list.d/nodesource.list
-#   when: ansible_lsb.id == "Raspbian"
-#
-# - name: Install NodeJS (Raspbian)
-#   apt: name=nodejs state=latest
-#   when: ansible_lsb.id == "Raspbian"
-#
 # - name: Install Grunt CLI
 #   npm: name=grunt-cli state=present global=yes
 #   # shell: npm install -g grunt-cli

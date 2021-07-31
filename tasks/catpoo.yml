@@ -1,43 +1,33 @@
 ---
 
-# #
-# # CATPOO controller
-# #
 #
-# - name: Clone CATPOO controller repo
-#   git:
-#     accept_hostkey: yes
-#     clone: yes
-#     dest: /usr/local/src/catpoo-controller
-#     force: yes
-#     recursive: yes
-#     repo: "{{ catpoo_controller_repo }}"
-#     version: master
+# CATPOO drive
 #
-# - name: Build CATPOO controller
-#   shell: "{{ item }}"
-#   args:
-#     chdir: /usr/local/src/catpoo-controller
-#   with_items:
-#     - autoreconf --install
-#     - ./configure
-#     - make
-#     - make install
+
+- name: Clone CATPOO drive repo
+  git:
+    accept_hostkey: yes
+    clone: yes
+    dest: "{{ catpoo_drive_root }}"
+    force: yes
+    recursive: yes
+    repo: "{{ catpoo_drive_repo }}"
+    version: master
+
 #
-# #
-# # CATPOO web UI
-# #
+# CATPOO web UI
 #
-# - name: Clone CATPOO Web UI repo
-#   git:
-#     accept_hostkey: yes
-#     clone: yes
-#     dest: "{{ catpoo_document_root }}"
-#     force: yes
-#     recursive: yes
-#     repo: "{{ catpoo_web_repo }}"
-#     version: master
-#
+
+- name: Clone CATPOO Web UI repo
+  git:
+    accept_hostkey: yes
+    clone: yes
+    dest: "{{ catpoo_document_root }}"
+    force: yes
+    recursive: yes
+    repo: "{{ catpoo_web_repo }}"
+    version: master
+
 # #
 # # Apache configuration
 # #

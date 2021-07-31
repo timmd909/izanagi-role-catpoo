@@ -1,9 +1,9 @@
 ---
 
-# - include: "hardware.yml"
-#   become: yes
-#   become_user: root
-#
+- include: "hardware.yml"
+  become: yes
+  become_user: root
+
 # - include: "development.yml"
 #   become: yes
 #   become_user: root
