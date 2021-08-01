@@ -7,11 +7,11 @@
 # - include: "development.yml"
 #   become: yes
 #   become_user: root
-#
-# - include: "gui.yml"
-#   become: yes
-#   become_user: root
-#
+
+- include: "gui.yml"
+  become: yes
+  become_user: root
+
 - include: "webcam.yml"
   become: yes
   become_user: root

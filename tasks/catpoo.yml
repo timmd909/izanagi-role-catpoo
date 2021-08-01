@@ -12,7 +12,7 @@
     force: yes
     recursive: yes
     repo: "{{ catpoo_drive_repo }}"
-    version: master
+    version: "{{ catpoo_drive_repo_version }}"
 
 #
 # CATPOO web UI
@@ -26,7 +26,7 @@
     force: yes
     recursive: yes
     repo: "{{ catpoo_web_repo }}"
-    version: master
+    version: "{{ catpoo_web_repo_version }}"
 
 # #
 # # Apache configuration

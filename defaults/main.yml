@@ -46,17 +46,15 @@ hdmi_cvt: 800 480 60 6 0 0 0
 # router_internal_nic: "{{ wap_device }}"
 
 #
-# Drive
+# Git Repositories
 #
+
 catpoo_drive_repo: 'https://github.com/timmd909/catpoo-drive.git'
+catpoo_drive_repo_version: '2021-finally-time-to-program'
 catpoo_drive_root: '/srv/catpoo-drive'
 
-#
-# Web UI
-#
-catpoo_web_ui: true
-catpoo_document_root: '/var/www/catpoo'
-catpoo_controller_repo: 'https://github.com/timmd909/catpoo-controller.git'
 catpoo_web_repo: 'https://github.com/timmd909/catpoo-web.git'
+catpoo_web_repo_version: '2021-finally-time-to-program'
+catpoo_document_root: '/srv/catpoo-web'
 
 apache_username: www-data
