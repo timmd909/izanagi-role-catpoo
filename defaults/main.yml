@@ -58,3 +58,11 @@ catpoo_web_repo_version: '2021-finally-time-to-program'
 catpoo_web_root: '/srv/catpoo-web'
 
 apache_username: www-data
+
+#
+# Motion overrides
+#
+
+motion_server_framerate: 30
+motion_server_image_width: 1280
+motion_server_image_height: 720
