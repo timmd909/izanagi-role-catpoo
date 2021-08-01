@@ -46,6 +46,39 @@
   shell: "a2ensite catpoo"
   notify: "Restart Apache"
 
+#
+# Graphical Boot Screen
+#
+# If you're reading this, know that I spent way too much time on this
+# section. The boot up is likely the least important part, yet I couldn't
+# help myself. I need that laugh whenever I turn it on.
+#
+- name: Install boot screens
+  apt:
+    state: latest
+    name:
+      - plymouth
+      - plymouth-themes
+
+- name: Enable plymouth on boot
+  lineinfile:
+    path: /boot/cmdline.txt
+    regexp: '^(.*)plymouth.ignore-serial-consoles(.*)$'
+    line: '\1 \2'
+    backrefs: yes
+
+- name: Set plymouth theme
+  shell: plymouth-set-default-theme pix
+
+- name: Copy new boot image
+  copy:
+    src: 'splash.png'
+    dest: '/usr/share/plymouth/themes/pix/splash.png'
+
+#
+# TODO: COPY THE BOOT IMAGE HERE
+#
+
 # #
 # # Install dependencies
 # #
