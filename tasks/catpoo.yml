@@ -1,28 +1,18 @@
 ---
 
 #
-# CATPOO controller
+# CATPOO drive
 #
 
-- name: Clone CATPOO controller repo
+- name: Clone CATPOO drive repo
   git:
     accept_hostkey: yes
     clone: yes
-    dest: /usr/local/src/catpoo-controller
+    dest: "{{ catpoo_drive_root }}"
     force: yes
     recursive: yes
-    repo: "{{ catpoo_controller_repo }}"
-    version: master
-
-- name: Build CATPOO controller
-  shell: "{{ item }}"
-  args:
-    chdir: /usr/local/src/catpoo-controller
-  with_items:
-    - autoreconf --install
-    - ./configure
-    - make
-    - make install
+    repo: "{{ catpoo_drive_repo }}"
+    version: "{{ catpoo_drive_repo_version }}"
 
 #
 # CATPOO web UI
@@ -32,11 +22,11 @@
   git:
     accept_hostkey: yes
     clone: yes
-    dest: "{{ catpoo_document_root }}"
+    dest: "{{ catpoo_web_root }}"
     force: yes
     recursive: yes
     repo: "{{ catpoo_web_repo }}"
-    version: master
+    version: "{{ catpoo_web_repo_version }}"
 
 #
 # Apache configuration
@@ -54,83 +44,79 @@
 
 - name: Enable catpoo Apache config
   shell: "a2ensite catpoo"
-  when: catpoo_web_ui == true
+  notify: "Restart Apache"
 
-- name: Disable catpoo Apache config
-  shell: "a2dissite catpoo"
-  when: catpoo_web_ui == false
-
+# #
+# # Install dependencies
+# #
+# - name: Install Composer vendors
+#   shell: "composer --no-interaction install"
+#   args:
+#     chdir: "{{ catpoo_web_root }}"
 #
-# Install dependencies
+# - name: Install Node modules
+#   shell: npm install
+#   args:
+#     chdir: "{{ catpoo_web_root }}"
 #
-- name: Install Composer vendors
-  shell: "composer --no-interaction install"
-  args:
-    chdir: "{{ catpoo_document_root }}"
-
-- name: Install Node modules
-  shell: npm install
-  args:
-    chdir: "{{ catpoo_document_root }}"
-
-- name: Build assets
-  shell: grunt
-  args:
-    chdir: "{{ catpoo_document_root }}"
-
+# - name: Build assets
+#   shell: grunt
+#   args:
+#     chdir: "{{ catpoo_web_root }}"
 #
-# Update permissions
+# #
+# # Update permissions
+# #
+# - name: Add www-data user to I2C group
+#   user:
+#     name: www-data
+#     append: yes
+#     groups: i2c
 #
-- name: Add www-data user to I2C group
-  user:
-    name: www-data
-    append: yes
-    groups: i2c
-
+# #
+# # Update CATPOO webroot ACLs
+# #
+# - name: Fix ownership & permissions in CATPOO webroot
+#   file:
+#     owner: www-data
+#     group: www-data
+#     path: "{{ catpoo_web_root }}"
+#     recurse: yes
 #
-# Update CATPOO webroot ACLs
+# - name: Update www-data ACL for CATPOO defaults
+#   acl:
+#     default: yes
+#     entity: "{{ apache_username }}"
+#     etype: user
+#     path: "{{ catpoo_web_root }}"
+#     permissions: "rwx"
+#     recursive: yes
+#     state: present
 #
-- name: Fix ownership & permissions in CATPOO webroot
-  file:
-    owner: www-data
-    group: www-data
-    path: "{{ catpoo_document_root }}"
-    recurse: yes
-
-- name: Update www-data ACL for CATPOO defaults
-  acl:
-    default: yes
-    entity: "{{ apache_username }}"
-    etype: user
-    path: "{{ catpoo_document_root }}"
-    permissions: "rwx"
-    recursive: yes
-    state: present
-
-- name: Update www-data ACL for CATPOO
-  acl:
-    entity: "{{ apache_username }}"
-    etype: user
-    path: "{{ catpoo_document_root }}"
-    permissions: "rwx"
-    recursive: yes
-    state: present
-
-- name: Update user ACL for CATPOO defaults
-  acl:
-    default: yes
-    entity: "{{ ansible_env.USER }}"
-    etype: user
-    path: "{{ catpoo_document_root }}"
-    permissions: "rwx"
-    recursive: yes
-    state: present
-
-- name: Update user ACL for CATPOO
-  acl:
-    entity: "{{ ansible_env.USER }}"
-    etype: user
-    path: "{{ catpoo_document_root }}"
-    permissions: "rwx"
-    recursive: yes
-    state: present
+# - name: Update www-data ACL for CATPOO
+#   acl:
+#     entity: "{{ apache_username }}"
+#     etype: user
+#     path: "{{ catpoo_web_root }}"
+#     permissions: "rwx"
+#     recursive: yes
+#     state: present
+#
+# - name: Update user ACL for CATPOO defaults
+#   acl:
+#     default: yes
+#     entity: "{{ ansible_env.USER }}"
+#     etype: user
+#     path: "{{ catpoo_web_root }}"
+#     permissions: "rwx"
+#     recursive: yes
+#     state: present
+#
+# - name: Update user ACL for CATPOO
+#   acl:
+#     entity: "{{ ansible_env.USER }}"
+#     etype: user
+#     path: "{{ catpoo_web_root }}"
+#     permissions: "rwx"
+#     recursive: yes
+#     state: present

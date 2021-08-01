@@ -19,26 +19,27 @@
     runlevel: 3
     name: lightdm
 
-- name: "Install GNU Krell monitors"
-  apt: name=gkrellm state=present
+# - name: "Install GNU Krell monitors"
+#   apt: name=gkrellm state=present
 
 #
 # XInput
 #
 
-- name: "Install XInput"
-  apt: name=xinput
-
-- name: "Make sure xorg configuration symlink is in place"
-  file:
-    path: /etc/X11/xorg.conf.d
-    force: yes
-    state: link
-    src: /usr/share/X11/xorg.conf.d
+# - name: "Install XInput"
+#   apt: name=xinput
+#
+# - name: "Make sure xorg configuration symlink is in place"
+#   file:
+#     path: /etc/X11/xorg.conf.d
+#     force: yes
+#     state: link
+#     src: /usr/share/X11/xorg.conf.d
 
 #
 # Kiosk mode
 #
+
 - name: "Install x11-xserver-utils"
   apt: name=x11-xserver-utils state=present
 

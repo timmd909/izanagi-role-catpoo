@@ -1,9 +1,9 @@
 ---
 
-- name: "Install debugging USB wireless NIC support"
-  template:
-    src: etc/network/interfaces.d/external-wireless.j2
-    dest: /etc/network/interfaces.d/external-wireless
+# - name: "Install debugging USB wireless NIC support"
+#   template:
+#     src: etc/network/interfaces.d/external-wireless.j2
+#     dest: /etc/network/interfaces.d/external-wireless
 
 - name: "Set HDMI Group"
   lineinfile:
@@ -25,15 +25,6 @@
     state: present
     line: 'hdmi_cvt {{ hdmi_cvt }}'
     path: /boot/config.txt
-
-- name: "Disable undervoltage warning"
-  lineinfile:
-    regexp: '^avoid_warnings'
-    state: present
-    line: 'avoid_warnings=1'
-    path: /boot/config.txt
-# avoid_warnings=1 = removes the warning overlay.
-# avoid_warnings=2 = additionally allows turbo when low-voltage is present.
 
 # - name: "Bash Aliases for root"
 #   blockinfile:
@@ -57,16 +48,17 @@
 
 # Cuz no robot is complete if it can't speak up
 - name: Install Festival
-  apt: name=festival state=present
-  with_items:
-    - festival
-    - festlex-cmu
-    - festlex-oald
-    - festlex-poslex
-    - festvox-don
-    - festvox-kallpc16k
-    - festvox-kdlpc16k
-    - festvox-rablpc16k
+  apt:
+    state: latest
+    name:
+      - festival
+      - festlex-cmu
+      - festlex-oald
+      - festlex-poslex
+      - festvox-don
+      - festvox-kallpc16k
+      - festvox-kdlpc16k
+      - festvox-rablpc16k
 
 - name: Set default Festival voice
   lineinfile:

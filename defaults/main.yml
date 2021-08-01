@@ -4,17 +4,17 @@
 # Network configuration
 #
 
-# Wireless access point
-wap_ip_octet_1: 10
-wap_ip_octet_2: 13
-wap_ip_octet_3: 37
-wap_ip_octet_4: 1
-
-wap_device: wlan0
-external_wireless_nic: wlan1
-router_internal_nic: wlan0
-router_access_point_nic: wlan0
-router_external_nic: eth0
+# # Wireless access point
+# wap_ip_octet_1: 10
+# wap_ip_octet_2: 13
+# wap_ip_octet_3: 37
+# wap_ip_octet_4: 1
+#
+# wap_device: wlan0
+# external_wireless_nic: wlan1
+# router_internal_nic: wlan0
+# router_access_point_nic: wlan0
+# router_external_nic: eth0
 
 #
 # Force HDMI
@@ -25,32 +25,36 @@ hdmi_group: 2
 hdmi_mode: 87
 hdmi_cvt: 800 480 60 6 0 0 0
 
-#
-# DNS configuration
-#
-dns_domain: local
-dns_host: catpoo
+# #
+# # DNS configuration
+# #
+# dns_domain: local
+# dns_host: catpoo
 
-# IP address of the DNS server
-dns_ip_octet_1: "{{ wap_ip_octet_1 }}"
-dns_ip_octet_2: "{{ wap_ip_octet_2 }}"
-dns_ip_octet_3: "{{ wap_ip_octet_3 }}"
-dns_ip_octet_4: "{{ wap_ip_octet_4 }}"
+# # IP address of the DNS server
+# dns_ip_octet_1: "{{ wap_ip_octet_1 }}"
+# dns_ip_octet_2: "{{ wap_ip_octet_2 }}"
+# dns_ip_octet_3: "{{ wap_ip_octet_3 }}"
+# dns_ip_octet_4: "{{ wap_ip_octet_4 }}"
 
-dns_network_device: "{{ router_internal_nic }}"
+# dns_network_device: "{{ router_internal_nic }}"
+
+# #
+# # Routing
+# #
+# router_external_nic: wlan0
+# router_internal_nic: "{{ wap_device }}"
 
 #
-# Routing
+# Git Repositories
 #
-router_external_nic: wlan0
-router_internal_nic: "{{ wap_device }}"
 
-#
-# Web UI
-#
-catpoo_web_ui: true
-catpoo_document_root: /var/www/catpoo
-catpoo_controller_repo: https://github.com/timmd909/catpoo-controller.git
-catpoo_web_repo: https://github.com/timmd909/catpoo-web.git
+catpoo_drive_repo: 'https://github.com/timmd909/catpoo-drive.git'
+catpoo_drive_repo_version: '2021-finally-time-to-program'
+catpoo_drive_root: '/srv/catpoo-drive'
+
+catpoo_web_repo: 'https://github.com/timmd909/catpoo-web.git'
+catpoo_web_repo_version: '2021-finally-time-to-program'
+catpoo_web_root: '/srv/catpoo-web'
 
 apache_username: www-data

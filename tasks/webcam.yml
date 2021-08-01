@@ -13,13 +13,3 @@
     path: /etc/motion/motion.conf
     regexp: '^ffmpeg_output_movies'
     state: present
-
-- name: "Allow www-data user to restart motion service"
-  lineinfile:
-    path: /etc/sudoers.d/restart-motion-service
-    owner: root
-    group: root
-    mode: 0660
-    create: yes
-    state: present
-    line: "www-data ALL=NOPASSWD: /usr/local/sbin/restart-motion-service"
