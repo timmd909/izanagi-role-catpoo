@@ -15,9 +15,9 @@
 - include: "webcam.yml"
   become: yes
   become_user: root
-#
-# - include: "catpoo.yml"
-#   become: yes
-#   become_user: root
+
+- include: "catpoo.yml"
+  become: yes
+  become_user: root
 
 - include: "user-env.yml"

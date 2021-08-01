@@ -1,4 +1,4 @@
-<Directory /var/www/>
+<Directory {{ catpoo_web_root }}>
   Options Indexes FollowSymLinks
   AllowOverride All
   Require all granted
@@ -15,7 +15,7 @@
 	#ServerName www.example.com
 
 	ServerAdmin webmaster@localhost
-	DocumentRoot {{ catpoo_document_root }}/public
+	DocumentRoot {{ catpoo_web_root }}/dist
 
 	# Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
 	# error, crit, alert, emerg.

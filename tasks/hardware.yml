@@ -48,16 +48,17 @@
 
 # Cuz no robot is complete if it can't speak up
 - name: Install Festival
-  apt: name=festival state=present
-  with_items:
-    - festival
-    - festlex-cmu
-    - festlex-oald
-    - festlex-poslex
-    - festvox-don
-    - festvox-kallpc16k
-    - festvox-kdlpc16k
-    - festvox-rablpc16k
+  apt:
+    state: latest
+    name:
+      - festival
+      - festlex-cmu
+      - festlex-oald
+      - festlex-poslex
+      - festvox-don
+      - festvox-kallpc16k
+      - festvox-kdlpc16k
+      - festvox-rablpc16k
 
 - name: Set default Festival voice
   lineinfile:

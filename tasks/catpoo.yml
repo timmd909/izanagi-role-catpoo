@@ -22,51 +22,47 @@
   git:
     accept_hostkey: yes
     clone: yes
-    dest: "{{ catpoo_document_root }}"
+    dest: "{{ catpoo_web_root }}"
     force: yes
     recursive: yes
     repo: "{{ catpoo_web_repo }}"
     version: "{{ catpoo_web_repo_version }}"
 
-# #
-# # Apache configuration
-# #
-# - name: Enable Apache modules for CATPOO
-#   apache2_module: state=present name="{{ item }}"
-#   with_items:
-#     - proxy
-#     - proxy_http
 #
-# - name: Configure web server
-#   template:
-#     src: etc/apache2/sites-available/catpoo.conf.j2
-#     dest: /etc/apache2/sites-available/catpoo.conf
+# Apache configuration
 #
-# - name: Enable catpoo Apache config
-#   shell: "a2ensite catpoo"
-#   when: catpoo_web_ui == true
-#
-# - name: Disable catpoo Apache config
-#   shell: "a2dissite catpoo"
-#   when: catpoo_web_ui == false
-#
+- name: Enable Apache modules for CATPOO
+  apache2_module: state=present name="{{ item }}"
+  with_items:
+    - proxy
+    - proxy_http
+
+- name: Configure web server
+  template:
+    src: etc/apache2/sites-available/catpoo.conf.j2
+    dest: /etc/apache2/sites-available/catpoo.conf
+
+- name: Enable catpoo Apache config
+  shell: "a2ensite catpoo"
+  notify: "Restart Apache"
+
 # #
 # # Install dependencies
 # #
 # - name: Install Composer vendors
 #   shell: "composer --no-interaction install"
 #   args:
-#     chdir: "{{ catpoo_document_root }}"
+#     chdir: "{{ catpoo_web_root }}"
 #
 # - name: Install Node modules
 #   shell: npm install
 #   args:
-#     chdir: "{{ catpoo_document_root }}"
+#     chdir: "{{ catpoo_web_root }}"
 #
 # - name: Build assets
 #   shell: grunt
 #   args:
-#     chdir: "{{ catpoo_document_root }}"
+#     chdir: "{{ catpoo_web_root }}"
 #
 # #
 # # Update permissions
@@ -84,7 +80,7 @@
 #   file:
 #     owner: www-data
 #     group: www-data
-#     path: "{{ catpoo_document_root }}"
+#     path: "{{ catpoo_web_root }}"
 #     recurse: yes
 #
 # - name: Update www-data ACL for CATPOO defaults
@@ -92,7 +88,7 @@
 #     default: yes
 #     entity: "{{ apache_username }}"
 #     etype: user
-#     path: "{{ catpoo_document_root }}"
+#     path: "{{ catpoo_web_root }}"
 #     permissions: "rwx"
 #     recursive: yes
 #     state: present
@@ -101,7 +97,7 @@
 #   acl:
 #     entity: "{{ apache_username }}"
 #     etype: user
-#     path: "{{ catpoo_document_root }}"
+#     path: "{{ catpoo_web_root }}"
 #     permissions: "rwx"
 #     recursive: yes
 #     state: present
@@ -111,7 +107,7 @@
 #     default: yes
 #     entity: "{{ ansible_env.USER }}"
 #     etype: user
-#     path: "{{ catpoo_document_root }}"
+#     path: "{{ catpoo_web_root }}"
 #     permissions: "rwx"
 #     recursive: yes
 #     state: present
@@ -120,7 +116,7 @@
 #   acl:
 #     entity: "{{ ansible_env.USER }}"
 #     etype: user
-#     path: "{{ catpoo_document_root }}"
+#     path: "{{ catpoo_web_root }}"
 #     permissions: "rwx"
 #     recursive: yes
 #     state: present
