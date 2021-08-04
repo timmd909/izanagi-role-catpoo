@@ -1,5 +1,14 @@
 ---
 
+- debug: var=ansible_env
+
+- name: Create CATPOO srv directory
+  file:
+    state: directory
+    path: "{{ catpoo_root }}"
+    owner: "{{ ansible_env.USER }}"
+    # group: "{{ ansible_env.GROUP }}"
+
 #
 # CATPOO drive
 #
@@ -13,6 +22,8 @@
     recursive: yes
     repo: "{{ catpoo_drive_repo }}"
     version: "{{ catpoo_drive_repo_version }}"
+  become: yes
+  become_user: "{{ ansible_env.USER }}"
 
 #
 # CATPOO web UI
@@ -27,6 +38,8 @@
     recursive: yes
     repo: "{{ catpoo_web_repo }}"
     version: "{{ catpoo_web_repo_version }}"
+  become: yes
+  become_user: "{{ ansible_env.USER }}"
 
 #
 # Apache configuration
@@ -46,57 +59,6 @@
   shell: "a2ensite catpoo"
   notify: "Restart Apache"
 
-#
-# Graphical Boot Screen
-#
-# If you're reading this, know that I spent way too much time on this
-# section. The boot up is likely the least important part, yet I couldn't
-# help myself. I need that laugh whenever I turn it on.
-#
-- name: Install boot screens
-  apt:
-    state: latest
-    name:
-      - plymouth
-      - plymouth-themes
-
-- name: Enable plymouth on boot
-  lineinfile:
-    path: /boot/cmdline.txt
-    regexp: '^(.*)plymouth.ignore-serial-consoles(.*)$'
-    line: '\1 \2'
-    backrefs: yes
-
-- name: Set plymouth theme
-  shell: plymouth-set-default-theme pix
-
-- name: Copy new boot image
-  copy:
-    src: 'splash.png'
-    dest: '/usr/share/plymouth/themes/pix/splash.png'
-
-#
-# TODO: COPY THE BOOT IMAGE HERE
-#
-
-# #
-# # Install dependencies
-# #
-# - name: Install Composer vendors
-#   shell: "composer --no-interaction install"
-#   args:
-#     chdir: "{{ catpoo_web_root }}"
-#
-# - name: Install Node modules
-#   shell: npm install
-#   args:
-#     chdir: "{{ catpoo_web_root }}"
-#
-# - name: Build assets
-#   shell: grunt
-#   args:
-#     chdir: "{{ catpoo_web_root }}"
-#
 # #
 # # Update permissions
 # #
@@ -106,50 +68,3 @@
 #     append: yes
 #     groups: i2c
 #
-# #
-# # Update CATPOO webroot ACLs
-# #
-# - name: Fix ownership & permissions in CATPOO webroot
-#   file:
-#     owner: www-data
-#     group: www-data
-#     path: "{{ catpoo_web_root }}"
-#     recurse: yes
-#
-# - name: Update www-data ACL for CATPOO defaults
-#   acl:
-#     default: yes
-#     entity: "{{ apache_username }}"
-#     etype: user
-#     path: "{{ catpoo_web_root }}"
-#     permissions: "rwx"
-#     recursive: yes
-#     state: present
-#
-# - name: Update www-data ACL for CATPOO
-#   acl:
-#     entity: "{{ apache_username }}"
-#     etype: user
-#     path: "{{ catpoo_web_root }}"
-#     permissions: "rwx"
-#     recursive: yes
-#     state: present
-#
-# - name: Update user ACL for CATPOO defaults
-#   acl:
-#     default: yes
-#     entity: "{{ ansible_env.USER }}"
-#     etype: user
-#     path: "{{ catpoo_web_root }}"
-#     permissions: "rwx"
-#     recursive: yes
-#     state: present
-#
-# - name: Update user ACL for CATPOO
-#   acl:
-#     entity: "{{ ansible_env.USER }}"
-#     etype: user
-#     path: "{{ catpoo_web_root }}"
-#     permissions: "rwx"
-#     recursive: yes
-#     state: present

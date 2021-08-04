@@ -49,12 +49,14 @@ hdmi_cvt: 800 480 60 6 0 0 0
 # Git Repositories
 #
 
+catpoo_root: '/srv/catpoo'
+
 catpoo_drive_repo: 'https://github.com/timmd909/catpoo-drive.git'
 catpoo_drive_repo_version: '2021-finally-time-to-program'
-catpoo_drive_root: '/srv/catpoo-drive'
+catpoo_drive_root: '{{ catpoo_root }}/drive'
 
 catpoo_web_repo: 'https://github.com/timmd909/catpoo-web.git'
 catpoo_web_repo_version: '2021-finally-time-to-program'
-catpoo_web_root: '/srv/catpoo-web'
+catpoo_web_root: '{{ catpoo_root }}/web'
 
 apache_username: www-data
