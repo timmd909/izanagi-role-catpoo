@@ -18,7 +18,7 @@
 
 - include: "catpoo.yml"
   become: yes
-  become_user: root
+  become_user: "{{ ansible_env.USER }}"
 
 - include: "user-env.yml"
 

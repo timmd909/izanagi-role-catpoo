@@ -1,13 +1,13 @@
 ---
 
-- debug: var=ansible_env
-
 - name: Create CATPOO srv directory
   file:
     state: directory
     path: "{{ catpoo_root }}"
     owner: "{{ ansible_env.USER }}"
     # group: "{{ ansible_env.GROUP }}"
+  become: yes
+  become_user: root
 
 #
 # CATPOO drive
@@ -22,8 +22,6 @@
     recursive: yes
     repo: "{{ catpoo_drive_repo }}"
     version: "{{ catpoo_drive_repo_version }}"
-  become: yes
-  become_user: "{{ ansible_env.USER }}"
 
 #
 # CATPOO web UI
@@ -38,8 +36,6 @@
     recursive: yes
     repo: "{{ catpoo_web_repo }}"
     version: "{{ catpoo_web_repo_version }}"
-  become: yes
-  become_user: "{{ ansible_env.USER }}"
 
 #
 # Apache configuration
@@ -49,15 +45,40 @@
   with_items:
     - proxy
     - proxy_http
+  become: yes
+  become_user: root
 
 - name: Configure web server
   template:
     src: etc/apache2/sites-available/catpoo.conf.j2
     dest: /etc/apache2/sites-available/catpoo.conf
+  become: yes
+  become_user: root
 
 - name: Enable catpoo Apache config
   shell: "a2ensite catpoo"
   notify: "Restart Apache"
+  become: yes
+  become_user: root
+
+#
+# Build / install
+#
+
+- name: Install NPM packages (drive)
+  shell: npm i
+  args:
+    chdir: "{{ catpoo_drive_root }}"
+
+- name: Install NPM packages (web)
+  shell: npm i
+  args:
+    chdir: "{{ catpoo_web_root }}"
+
+- name: Build website
+  shell: npm run build
+  args:
+    chdir: "{{ catpoo_web_root }}"
 
 # #
 # # Update permissions
